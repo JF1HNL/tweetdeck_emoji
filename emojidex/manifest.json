@@ -1,8 +1,8 @@
 {
-  "name": "tweetdeck emoij replace",
+  "name": "tweetdeck_emoji(emojidex)",
   "version": "1.0.0",
   "manifest_version": 2,
-  "description": "Sample Chrome Extension",
+  "description": "replace emoji",
   "browser_action": {
     "default_title": "emoji"
   },
