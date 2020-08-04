@@ -6,6 +6,11 @@
   "browser_action": {
     "default_title": "emoji"
   },
+  "permissions": [
+    "<all_urls>",
+    "tabs",
+    "webNavigation"
+  ],
   "background": {
 		"scripts": ["background.js"]
 	},
@@ -13,7 +18,9 @@
     "matches": ["https://tweetdeck.twitter.com/"],
     "js": [
       "node_modules/axios/dist/axios.min.js",
-      "index.js"
-    ]
+      "replace.js",
+      "node_modules/jquery/dist/jquery.min.js"
+    ],
+    "run_at": "document_end"
   }]
 }
