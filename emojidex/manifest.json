@@ -1,0 +1,19 @@
+{
+  "name": "tweetdeck emoij replace",
+  "version": "1.0.0",
+  "manifest_version": 2,
+  "description": "Sample Chrome Extension",
+  "browser_action": {
+    "default_title": "emoji"
+  },
+  "background": {
+		"scripts": ["background.js"]
+	},
+  "content_scripts": [{
+    "matches": ["https://tweetdeck.twitter.com/"],
+    "js": [
+      "node_modules/axios/dist/axios.min.js",
+      "index.js"
+    ]
+  }]
+}
