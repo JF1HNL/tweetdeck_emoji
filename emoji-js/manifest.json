@@ -1,0 +1,19 @@
+{
+  "name": "tweetdeck_emoji(emoji-js)",
+  "version": "1.0.0",
+  "manifest_version": 2,
+  "description": "replace emoji",
+  "browser_action": {
+    "default_title": "emoji"
+  },
+  "background": {
+		"scripts": ["background.js"]
+	},
+  "content_scripts": [{
+    "matches": ["https://tweetdeck.twitter.com/"],
+    "js": [
+      "index.js",
+      "node_modules/emoji-js/lib/emoji.js"
+    ]
+  }]
+}
