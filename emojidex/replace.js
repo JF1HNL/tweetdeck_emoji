@@ -1,3 +1,8 @@
+const original = ":" // 通常のコロン
+const imitation = "ː" // IPA発音記号
+// この行以降のコードではミス防止のため、コロンのみ使う
+
+
 document.addEventListener('keydown', event => {
   const textarea = document.querySelector('.js-compose-text')
   if (textarea.setteinged) {
@@ -7,28 +12,26 @@ document.addEventListener('keydown', event => {
 
   textarea.addEventListener('input', event => {
     const { target } = event;
-    (target.value.replace(/:/g, '::').match(/:([^:]+?):/g) || [])
-      .map(matched => {
-        fetchEmoji(matched.slice(1, -1))
-          .then(emoji => {
-            if (emoji) {
-              target.value = target.value.replace(matched, emoji)
-            }
-          })
-      })
+
+    const candidates = new Set();
+    target.value = target.value.replace(/:([^: ]+?):/g, function replacer(match, p1) {
+      candidates.add(p1);
+      return imitation + p1 + imitation;
+    });
+
+    candidates.forEach(async candidate => {
+      const emoji = await fetchEmoji(candidate)
+      target.value = target.value.replace(new RegExp(imitation + candidate + imitation, 'g'), emoji || `:${candidate}:`)
+    })
   })
 })
 
-function fetchEmoji(code) {
-  return fetch('https://www.emojidex.com/api/v1/emoji/' + code)
-    .then(response => {
-      if (response.ok) {
-        return response.json()
-      } else {
-        return undefined
-      }
-    })
-    .then(response => response.moji)
-    .catch(error => console.error('Error:', error))
-    )
+
+async function fetchEmoji(code) {
+  const response = await fetch('https://www.emojidex.com/api/v1/emoji/' + code)
+  if (response.ok) {
+    const data = await response.json()
+    return data.moji
+  }
+  return undefined
 }
