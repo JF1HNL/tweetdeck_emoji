@@ -30,6 +30,7 @@ function emoji_replace(){
               this.dispatchEvent(new Event('change'));
             }
           })
+          .catch(e => {console.log(`emoji replace error:${e}`)})
       }
     }
   }
