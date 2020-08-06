@@ -1,43 +1,34 @@
-
-window.addEventListener('load', main, false);
-
-function main(e) {
-  const jsInitCheckTimer = setInterval(checkTextare, 1000);
-  let isTextareaExist = false;
-  function checkTextare(){
-    let nowTextareaExist = false;
-    if(document.querySelector('.js-compose-text') != null){
-      nowTextareaExist = true
-    }
-    if(!isTextareaExist && nowTextareaExist){
-      console.log('add function')
-      $('.js-compose-text').bind('input propertychanged', emoji_replace);
-    }
-    isTextareaExist = nowTextareaExist
+document.addEventListener('keydown', event => {
+  const textarea = document.querySelector('.js-compose-text')
+  if (textarea.setteinged) {
+    return
   }
-}
+  textarea.setteinged = true
 
-function emoji_replace(){
-  let val = this.value.split(":")
-  for(i in val){
-    if(i % 2){
-      if(i == (val.length - 1)){
-        val[i] = `:${val[i]}`
-        continue;
-      }
-      code = val[i].split(':').join('')
-      if (code != '') {
-        axios
-          .get('https://www.emojidex.com/api/v1/emoji/' + code)
-          .then(response => {
-            if (response.data.moji != null) {
-              this.value = this.value
-                .replace(':' + code + ':', response.data.moji)
-              this.dispatchEvent(new Event('change'));
+  textarea.addEventListener('input', event => {
+    const { target } = event;
+    (target.value.replace(/:/g, '::').match(/:([^:]+?):/g) || [])
+      .map(matched => {
+        fetchEmoji(matched.slice(1, -1))
+          .then(emoji => {
+            if (emoji) {
+              target.value = target.value.replace(matched, emoji)
             }
           })
-          .catch(e => {console.log(`emoji replace error:${e}`)})
+      })
+  })
+})
+
+function fetchEmoji(code) {
+  return fetch('https://www.emojidex.com/api/v1/emoji/' + code)
+    .then(response => {
+      if (response.ok) {
+        return response.json()
+      } else {
+        return undefined
       }
-    }
-  }
+    })
+    .then(response => response.moji)
+    .catch(error => console.error('Error:', error))
+    )
 }
