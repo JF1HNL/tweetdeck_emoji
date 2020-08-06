@@ -2,12 +2,18 @@
 window.addEventListener('load', main, false);
 
 function main(e) {
-  const jsInitCheckTimer = setInterval(jsLoaded, 1000);
-  function jsLoaded() {
-    if (document.querySelector('.js-compose-text') != null) {
-      clearInterval(jsInitCheckTimer);
+  const jsInitCheckTimer = setInterval(checkTextare, 1000);
+  let isTextareaExist = false;
+  function checkTextare(){
+    let nowTextareaExist = false;
+    if(document.querySelector('.js-compose-text') != null){
+      nowTextareaExist = true
+    }
+    if(!isTextareaExist && nowTextareaExist){
+      console.log('add function')
       $('.js-compose-text').bind('input propertychanged', emoji_replace);
     }
+    isTextareaExist = nowTextareaExist
   }
 }
 
