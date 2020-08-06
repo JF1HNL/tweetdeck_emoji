@@ -19,19 +19,10 @@ document.addEventListener('keydown', event => {
       return imitation + p1 + imitation;
     });
 
-    candidates.forEach(async candidate => {
-      const emoji = await fetchEmoji(candidate)
-      target.value = target.value.replace(new RegExp(imitation + candidate + imitation, 'g'), emoji || `:${candidate}:`)
-    })
+    for (candidate of candidates) {
+      chrome.runtime.sendMessage({ code: candidate }, emoji => {
+        target.value = target.value.replace(new RegExp(imitation + candidate + imitation, 'g'), emoji || `:${candidate}:`)
+      })
+    }
   })
 })
-
-
-async function fetchEmoji(code) {
-  const response = await fetch('https://www.emojidex.com/api/v1/emoji/' + code)
-  if (response.ok) {
-    const data = await response.json()
-    return data.moji
-  }
-  return undefined
-}
