@@ -13,7 +13,6 @@ function main(e) {
 
 function emoji_replace(){
   let val = this.value.split(":")
-  console.log(val)
   for(i in val){
     if(i % 2){
       if(i == (val.length - 1)){
@@ -28,6 +27,7 @@ function emoji_replace(){
             if (response.data.moji != null) {
               this.value = this.value
                 .replace(':' + code + ':', response.data.moji)
+              this.dispatchEvent(new Event('change'));
             }
           })
       }
