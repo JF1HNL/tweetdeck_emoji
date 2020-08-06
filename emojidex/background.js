@@ -1,3 +1,4 @@
-chrome.browserAction.onClicked.addListener(function(tab) {
-	chrome.tabs.sendMessage(tab.id, "Action");
+chrome.webNavigation.onCompleted.addListener(function() {
+  chrome.tabs.executeScript({file: 'replace.js'});
 });
+
