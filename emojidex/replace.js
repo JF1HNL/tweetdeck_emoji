@@ -22,6 +22,7 @@ document.addEventListener('keydown', event => {
     candidates.forEach(candidate => {
       chrome.runtime.sendMessage({ code: candidate }, emoji => {
         target.value = target.value.replace(new RegExp(`:${ZWSP}${candidate}:${ZWSP2}`, 'g'), emoji || `:${candidate}:`)
+        target.dispatchEvent(new Event('change'))
       })
     })
   })
