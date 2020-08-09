@@ -1,26 +1,16 @@
 {
   "name": "tweetdeck_emoji",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "manifest_version": 2,
   "description": "replace emoji",
-  "browser_action": {
-    "default_title": "emoji"
-  },
-  "permissions": [
-    "<all_urls>",
-    "tabs",
-    "webNavigation"
-  ],
   "background": {
-		"scripts": ["background.js"]
-	},
-  "content_scripts": [{
-    "matches": ["https://tweetdeck.twitter.com/"],
-    "js": [
-      "node_modules/axios/dist/axios.min.js",
-      "replace.js",
-      "node_modules/jquery/dist/jquery.min.js"
-    ],
-    "run_at": "document_end"
-  }]
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://tweetdeck.twitter.com/"],
+      "js": ["replace.js"]
+    }
+  ]
 }
