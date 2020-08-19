@@ -12,5 +12,6 @@
       "matches": ["https://tweetdeck.twitter.com/"],
       "js": ["replace.js"]
     }
-  ]
+  ],
+  "options_page": "options.html"
 }
