@@ -1,10 +1,22 @@
-chrome.extension.getBackgroundPage().console.log(document.querySelector('#emojiStore'));
-localStorage.setItem('test', 0)
-document.querySelector('#inc').addEventListener("click", () => localStorage.setItem('test', 1))
-document.querySelector('#dec').addEventListener("click", () => localStorage.setItem('test', -1))
-const emojiStore =  localStorage.getItem('tweetdeck_emoji-emojiStore')
-document.querySelector('#emojiStore').value = emojiStore ? emojiStore.replace("{", "{\n").replace("}", "\n}").replace(/,/g, ",\n") : ""
+function emojiStoreDisplay (){
+  const emojiStore =  localStorage.getItem('tweetdeck_emoji-emojiStore')
+  document.querySelector('#emojiStore').value = emojiStore ? emojiStore.replace("{", "{\n").replace("}", "\n}").replace(/,/g, ",\n") : ""
+}
+emojiStoreDisplay()
+document.querySelector('#refresh').addEventListener("click", () => {
+  emojiStoreDisplay()
+})
 document.querySelector('#emojiRegister').addEventListener("click", () => {
   const str = document.querySelector('#emojiStore').value
-  chrome.extension.getBackgroundPage().console.log(JSON.parse(str));
+  try {
+    if(str === ""){
+      localStorage.removeItem('tweetdeck_emoji-emojiStore')
+    }else{
+      localStorage.setItem('tweetdeck_emoji-emojiStore', JSON.stringify(JSON.parse(str)))
+    }
+    document.querySelector('#msg').innerText = "success"
+  }
+  catch(e){
+    document.querySelector('#msg').innerText = `エラー：${e}`
+  }
 })
