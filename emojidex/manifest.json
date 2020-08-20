@@ -1,6 +1,6 @@
 {
   "name": "tweetdeck_emoji",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "manifest_version": 2,
   "description": "replace emoji",
   "background": {
@@ -12,5 +12,9 @@
       "matches": ["https://tweetdeck.twitter.com/"],
       "js": ["replace.js"]
     }
-  ]
+  ],
+  "options_ui": {
+    "page": "options.html",
+    "chrome_style": true    
+  }
 }
